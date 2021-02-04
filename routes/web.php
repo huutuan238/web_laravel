@@ -75,3 +75,13 @@ Route::post('/update-product/{product_id}', 'ProductController@update_product');
 Route::post('/save-cart', 'CartController@save_cart');
 Route::get('/show-cart', 'CartController@show_cart');
 Route::get('/delete-to-cart/{rowId}', 'CartController@delte_to_cart');
+
+//checkout
+Route::get('/login-checkout', 'CheckoutController@login_checkout');
+Route::get('/logout-checkout', 'CheckoutController@logout_checkout');
+Route::post('/add-customer', 'CheckoutController@add_customer');
+Route::get('/checkout', 'CheckoutController@checkout');
+Route::post('/save-checkout-customer', 'CheckoutController@save_checkout_customer');
+Route::get('/payment', 'CheckoutController@payment');
+
+Route::post('/login-customer', 'CheckoutController@login_customer');
