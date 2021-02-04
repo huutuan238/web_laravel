@@ -126,7 +126,7 @@
         <div class="header-bottom"><!--header-bottom-->
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-9">
+                    <div class="col-sm-8">
                         <div class="navbar-header">
                             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                                 <span class="sr-only">Toggle navigation</span>
@@ -157,9 +157,13 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-4">
                         <div class="search_box pull-right">
-                            <input type="text" placeholder="Search"/>
+                            <form action="{{ URL::to('/tim-kiem') }}" method="POST">
+                                @csrf
+                                <input type="text" name="keyword_submit" placeholder="Search"/>
+                                <input type="submit" style="margin-top: 0px;" name="search_items" class="btn btn-primary btn-sm" value="Tìm kiếm">
+                            </form>
                         </div>
                     </div>
                 </div>
