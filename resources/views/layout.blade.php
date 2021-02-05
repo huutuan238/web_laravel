@@ -91,12 +91,18 @@
                                 
                                 <?php
                                    $customer_id = Session::get('customer_id');
-                                   if($customer_id!=NULL){ 
+                                   $shipping_id = Session::get('shipping_id');
+                                   if($customer_id!=NULL&&$shipping_id==NULL){ 
                                  ?>
                                   <li><a href="{{ URL::to('/checkout') }}"><i class="fa fa-crosshairs"></i> Thanh Toán</a></li>
                                 
                                 <?php
-                            }else{
+                            }
+                            elseif($customer_id!=NULL&&$shipping_id!=NULL){
+                                 ?>
+                                 <li><a href="{{URL::to('/payment')}}"><i class="fa fa-lock"></i> Thanh toán</a></li>
+                                 <?php 
+                             }else{
                                  ?>
                                  <li><a href="{{URL::to('/login-checkout')}}"><i class="fa fa-lock"></i> Thanh toán</a></li>
                                  <?php 
