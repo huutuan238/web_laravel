@@ -81,11 +81,14 @@ class CheckoutController extends Controller
             $order_details_data['product_sales_quantity'] =  $v_content->qty;
             $payment_id = DB::table('tbl_order_details')->insertGetId($order_details_data);
         }
-        if($data['payment_status']==1){
+        if($data['payment_status'] == 1){
             echo "Thanh toan bang ATM";
         }
         else{
-            echo "Thanh toan bang tien mat";
+            Cart::destroy();
+            $cate_product = DB::table('tbl_category_product')->where('category_status','1')->orderby('category_id','desc')->get();
+            $brand_product = DB::table('tbl_brand')->where('brand_status','1')->orderby('brand_id','desc')->get();
+            return view('pages/checkout/handcash')->with('cate_product',$cate_product)->with('brand_product',$brand_product);
         }
         // eadforeach
         // return Redirect::to('/payment');
@@ -106,6 +109,24 @@ class CheckoutController extends Controller
     		return Redirect('/login-checkout');
     	}
     	Session::put('customer_id',$customer_id);
-    	
+    	}
+    public function manage_order(){
+        $all_order = DB::table('tbl_order')
+        ->join('tbl_customer','tbl_order.customer_id','=','tbl_customer.customer_id')
+        ->select('tbl_order.*','tbl_customer.customer_name')
+        ->orderby('tbl_order.order_id','desc')->get();
+        $manage_order = view('admin/manage_order')->with('all_order',$all_order);
+        return view('admin_layout')->with('admin/manage_order',$manage_order);
+    }
+    public function view_order($orderId){
+        $order_by_id = DB::table('tbl_order')
+        ->join('tbl_customer','tbl_order.customer_id','=','tbl_customer.customer_id')
+        ->join('tbl_shipping','tbl_order.shipping_id','=','tbl_shipping.shipping_id')
+        ->join('tbl_order_details','tbl_order.order_id','=','tbl_order_details.order_id')
+        ->select('tbl_order.*','tbl_customer.*','tbl_shipping.*','tbl_order_details.*')
+        ->first();
+        $manage_order_by_id = view('admin/view_order')->with('order_by_id',$order_by_id);
+        return view('admin_layout')->with('admin/view_order',$manage_order_by_id);
+        
     }
 }
